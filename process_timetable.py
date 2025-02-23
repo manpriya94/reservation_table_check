@@ -314,17 +314,15 @@ def process_timetable(time_table):
     slots = data1["slots"]
     for date, slot in slots.items():
         for times, availability in slot.items():
-            if availability[
-                "available"
-            ]:  # checking if availability is true and filtering out false entries
+            av_time = datetime.datetime.fromtimestamp(
+                int(times), tz=pytz.timezone("Asia/Kolkata")
+            )
+            if (
+                av_time.weekday() == 6 and availability["available"]
+            ):  # checking if availability is true and filtering out false entries
                 print(
                     "Available Times :",
-                    datetime.datetime.fromtimestamp(
-                        int(times), tz=pytz.timezone("Asia/Kolkata")
-                    ),
+                    av_time,
                     ", Available=",
                     availability["available"],  # this can be removed as well
                 )
-
-
-process_timetable(data)
